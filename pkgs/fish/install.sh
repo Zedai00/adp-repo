@@ -13,7 +13,7 @@ ARCHIVE="$TMP/fish.tar.xz"
 
 echo "[+] Downloading fish"
 
-wget "$URL" -O "$ARCHIVE" || exit 1
+busybox wget "$URL" -O "$ARCHIVE" || exit 1
 
 echo "[+] Extracting"
 
