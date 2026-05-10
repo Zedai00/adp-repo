@@ -4,12 +4,10 @@ URL="https://github.com/fish-shell/fish-shell/releases/download/4.7.1/fish-4.7.1
 
 MOD_HOME="/data/adb/modules/adp"
 BIN="$MOD_HOME/system/bin"
-TMP="/data/local/tmp/adp"
 
 mkdir -p "$BIN"
-mkdir -p "$TMP"
 
-ARCHIVE="$TMP/fish.tar.xz"
+ARCHIVE="fish.tar.xz"
 
 echo "[+] Downloading fish"
 
@@ -17,10 +15,10 @@ busybox wget "$URL" -O "$ARCHIVE" || exit 1
 
 echo "[+] Extracting"
 
-tar -xJf "$ARCHIVE" -C "$TMP" || exit 1
+tar -xJf "$ARCHIVE" || exit 1
 
 # locate fish binary
-FISH_BIN=$(find "$TMP" -type f -name fish | head -n 1)
+FISH_BIN=$(find . -type f -name fish | head -n 1)
 
 if [ -z "$FISH_BIN" ]; then
     echo "[-] fish binary not found"
