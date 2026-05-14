@@ -1,11 +1,18 @@
 #!/system/bin/sh
 
-MOD_HOME="/data/adb/modules/adp"
-BIN="$MOD_HOME/system/bin"
+echo "[+] Uninstalling fish"
 
-rm -f "$BIN/fish"
-rm -f "$BIN/fishsh"
+rm -f "$KSU_BIN/fish"
 
-rm -rf /data/adb/fish_home
+rm -f "$ADP_BIN/fish"
+rm -f "$ADP_BIN/fishsh"
 
 echo "[+] fish removed"
+
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+
+echo "${YELLOW}[!] Fish home was NOT removed${RESET}"
+echo "${YELLOW}[!] Home: /data/adb/fish_home${RESET}"
+echo "${YELLOW}[!] Remove it manually if desired${RESET}"
+

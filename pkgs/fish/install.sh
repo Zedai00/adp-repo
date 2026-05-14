@@ -2,23 +2,18 @@
 
 URL="https://github.com/fish-shell/fish-shell/releases/download/4.7.1/fish-4.7.1-linux-aarch64.tar.xz"
 
-MOD_HOME="/data/adb/modules/adp"
-BIN="$MOD_HOME/system/bin"
-
-mkdir -p "$BIN"
-
-ARCHIVE="fish.tar.xz"
+ARCHIVE="$PKG_TMP/fish.tar.xz"
 
 echo "[+] Downloading fish"
 
-busybox wget "$URL" -O "$ARCHIVE" || exit 1
+download "$URL" "$ARCHIVE" || exit 1
 
 echo "[+] Extracting"
 
-tar -xJf "$ARCHIVE" || exit 1
+tar -xJf "$ARCHIVE" -C "$PKG_TMP" || exit 1
 
 # locate fish binary
-FISH_BIN=$(find . -type f -name fish | head -n 1)
+FISH_BIN=$(find "$PKG_TMP" -type f -name fish | head -n 1)
 
 if [ -z "$FISH_BIN" ]; then
     echo "[-] fish binary not found"
@@ -27,22 +22,35 @@ fi
 
 echo "[+] Installing"
 
-cp "$FISH_BIN" "$BIN/fishsh"
-chmod 755 "$BIN/fishsh"
+mkdir -p "$ADP_BIN"
 
-cat > "$BIN/fish" <<'EOF'
+cp "$FISH_BIN" "$ADP_BIN/fishsh"
+chmod 755 "$ADP_BIN/fishsh"
+
+cat > "$ADP_BIN/fish" <<'EOF'
 #!/system/bin/sh
 
 su -c '
 mkdir -p /data/adb/fish_home
 
 export HOME=/data/adb/fish_home
-export PATH=/data/adb/modules/adp/system/bin:$PATH
+export PATH=/data/adb/modules/adp/bin:$PATH
 
-exec fishsh -C "cd"
+exec /data/adb/modules/adp/bin/fishsh -C "cd"
 '
 EOF
 
-chmod 755 "$BIN/fish"
+chmod 755 "$ADP_BIN/fish"
+
+mkdir -p "$KSU_BIN"
+
+ln -sf "$ADP_BIN/fish" "$KSU_BIN/fish"
 
 echo "[+] fish installed"
+
+RED='\033[1;31m'
+RESET='\033[0m'
+
+echo "${RED}[!] Note: 'fish' is a wrapper that sets up the ADP environment.${RESET}"
+echo "${RED}[!] The actual Fish binary is 'fishsh'.${RESET}"
+echo "${RED}[!] Use 'fishsh' directly only if you know what you're doing.${RESET}"
