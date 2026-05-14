@@ -10,7 +10,7 @@ download "$URL" "$ARCHIVE" || exit 1
 
 echo "[+] Extracting"
 
-tar -xJf "$ARCHIVE" -C "$PKG_TMP" || exit 1
+busybox tar -xJf "$ARCHIVE" -C "$PKG_TMP" || exit 1
 
 # locate fish binary
 FISH_BIN=$(find "$PKG_TMP" -type f -name fish | head -n 1)
