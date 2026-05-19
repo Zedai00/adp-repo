@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-PKG="eza"
+PKG="bat"
 
 echo "[+] Uninstalling $PKG"
 
