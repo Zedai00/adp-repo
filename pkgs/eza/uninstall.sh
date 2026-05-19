@@ -1,18 +1,13 @@
 #!/system/bin/sh
 
-echo "[+] Uninstalling fish"
+PKG="eza"
 
-rm -f "$KSU_BIN/fish"
+echo "[+] Uninstalling $PKG"
 
-rm -f "$ADP_BIN/fish"
-rm -f "$ADP_BIN/fishsh"
+rm -f "$KSU_BIN/$PKG"
 
-echo "[+] fish removed"
+rm -f "$ADP_BIN/$PKG"
 
-YELLOW='\033[1;33m'
-RESET='\033[0m'
+echo "[+] $PKG removed"
 
-echo "${YELLOW}[!] Fish home was NOT removed${RESET}"
-echo "${YELLOW}[!] Home: /data/adb/fish_home${RESET}"
-echo "${YELLOW}[!] Remove it manually if desired${RESET}"
 
